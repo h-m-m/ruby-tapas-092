@@ -16,16 +16,18 @@ module Calendar
     end
 
     def next_mothersday(today = Date.today)
-      method = -> (year) { mothersday(year) }
-      next_holiday(today, method)
+      next_holiday(today) do |year|
+        mothersday year
+      end
     end
 
     def next_fathersday(today = Date.today)
-      method = -> (year) { fathersday(year) }
-      next_holiday(today, method)
+      next_holiday(today) do |year|
+        fathersday year
+      end
     end
 
-    def next_holiday(date, method)
+    def next_holiday(date, &method)
       this_years = method.(date.year)
       if this_years >= date
         this_years
